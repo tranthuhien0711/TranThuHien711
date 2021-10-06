@@ -23,8 +23,22 @@ namespace TranThuHien711
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllersWithViews();
-        }
+        services.AddControllersWithViews();
+
+        services.AddDbContext<AppLicationContext>(options =>
+        {
+            var connectionString = Configuration.GetConnectionString("AppLicationContext");
+
+            if (Environment.IsDevelopment())
+            {
+                options.UseSqlite(connectionString);
+            }
+            else
+            {
+                options.UseSqlServer(connectionString);
+            }
+        });
+    }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
